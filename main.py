@@ -1,13 +1,40 @@
-  ##Função para mostrar a Lista numerada
-def listar_tarefas(tarefas):
-    if len(tarefas) == 0:      ##Se a contagem das tarefas for zero não há tarefas.
-        print("Não há tarefas cadastradas.\n")
-        return
-    
-    print("\n=== TAREFAS DISPONÍVEIS ===")
-    for i, tarefa in enumerate(tarefas, start=1):   ##Loop para passar por todas as tarefas, cada loop vai printar a status, nome e prioridade de uma tarefa.
-        # Mostra nome e prioridade se existir
-        prioridade = tarefa.get('prioridade', 'Não definida')      ##Guardamos o variavel prioridade no array 0 da biblioteca tarefa, se não ouver o array 0 então não foi definida, e pula para o array 1.
-        status = "✓" if tarefa.get('concluida', False) else " "     ## Guardamos a variavel status na biblioteca tarefa, Se estiver retornar concluida então printa "✓", se não for concluida, então printa falso e define o valor de status para " " (não concluida).
-        print(f"{i}. [{status}] {tarefa['nome']} - Prioridade: {prioridade}")  ##Printa resultado.
-    print("===========================\n")
+def perguntar_sim_nao(mensagem):
+    """Função que aceita apenas 's' ou 'n'."""
+    resposta = input(mensagem).strip().lower()
+    while resposta not in ['s', 'n']:
+        print("Erro: digite apenas 's' para sim ou 'n' para não.")
+        resposta = input(mensagem).strip().lower()
+    return resposta
+
+
+def adicionar_tarefa(lista_tarefas):
+    """Função para adicionar tarefas validando tudo corretamente."""
+    while True:
+        tarefa = input("Digite a tarefa que deseja adicionar: ").strip()
+
+        # Impedir tarefas vazias
+        if tarefa == "":
+            print("Erro: a tarefa não pode estar vazia!")
+            continue
+
+        lista_tarefas.append(tarefa)
+        print(f"Tarefa adicionada: {tarefa}")
+
+        # Perguntar se o usuário quer adicionar mais tarefas
+        continuar = perguntar_sim_nao("Deseja adicionar outra tarefa? (s/n): ")
+        if continuar == 'n':
+            break
+
+
+# ---------------- PROGRAMA PRINCIPAL ----------------
+
+def main():
+    tarefas = []
+
+    print("=== SISTEMA DE GERENCIAMENTO DE TAREFAS ===")
+
+    adicionar_tarefa(tarefas)
+
+
+# Executa o programa
+main()
